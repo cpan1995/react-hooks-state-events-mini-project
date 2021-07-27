@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function NewTaskForm({categories, handleNewTask}) {
+function NewTaskForm({categories, onTaskFormSubmit}) {
   const [newTask, setNewTask] = useState({
     category: 'Code',
     text: '',
@@ -26,7 +26,11 @@ function NewTaskForm({categories, handleNewTask}) {
 
   function handleSubmit(e){
     e.preventDefault();
-    handleNewTask(newTask)
+    onTaskFormSubmit(newTask)
+    setNewTask({
+      category: 'Code',
+      text: '',
+    })
   }
 
   return (

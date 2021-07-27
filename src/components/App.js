@@ -8,25 +8,43 @@ function App() {
   const [currentCategory, setCurrentCategory] = useState("All")
   const [currentTasks, setCurrentTasks] = useState(TASKS)
 
-  console.log(currentTasks)
+  // if(currentCategory === 'All'){
+  //   setCurrentTasks(TASKS)
+  // }
+  // else {
+  //   let newArray = currentTasks.filter(task => task.category === currentCategory)
+  //   setCurrentTasks(newArray);
+  // }
 
   function handleFilter(newCat){
-    setCurrentCategory(newCat)
+    if(newCat === 'All'){
+      setCurrentTasks(TASKS)
+    }
+    else {
+      let newArray = TASKS.filter(task => task.category === newCat)
+      setCurrentTasks(newArray);
+    }
   }
-
-  function handleNewTask(newTask){
+  function handleDelete(currentTask1, currentCat1){
+    let newArray = currentTasks.filter(task => {
+      if(!(task.text === currentTask1 && task.category === currentCat1)){
+        return task
+      }
+    })
+    setCurrentTasks(newArray)
+  }
+  function onTaskFormSubmit(newTask){
     setCurrentTasks([
       ...currentTasks,
       newTask
     ])
   }
-  
   return (
     <div className="App">
       <h2>My tasks</h2>
       <CategoryFilter categories = {CATEGORIES} handleFilter={handleFilter}/>
-      <NewTaskForm categories = {CATEGORIES} handleNewTask = {handleNewTask}/>
-      <TaskList tasks = {currentTasks} currentCategory ={currentCategory}  />
+      <NewTaskForm categories = {CATEGORIES} onTaskFormSubmit = {onTaskFormSubmit}/>
+      <TaskList tasks = {currentTasks} handleDelete = {handleDelete}  />
     </div>
   );
 }
